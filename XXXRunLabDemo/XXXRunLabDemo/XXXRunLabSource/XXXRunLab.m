@@ -127,29 +127,30 @@
     if (self.isRun) return;
     self.isRun = YES;
     CGFloat runX = self.speed / 60.0;
+    __weak typeof(self) weakSelf = self;
     self.timer = [XXXTimer runTimer:1/60.0 everyTime:^{
         
-        self.itemRunArr.firstObject.left = self.itemRunArr.firstObject.left - runX;
-        UILabel *berforeLab = self.itemRunArr.firstObject;
-        for (NSInteger i = 1; i < self.itemRunArr.count; i++) {
-            self.itemRunArr[i].left = berforeLab.right + self.itemSpace;
-            berforeLab = self.itemRunArr[i];
+        weakSelf.itemRunArr.firstObject.left = weakSelf.itemRunArr.firstObject.left - runX;
+        UILabel *berforeLab = weakSelf.itemRunArr.firstObject;
+        for (NSInteger i = 1; i < weakSelf.itemRunArr.count; i++) {
+            weakSelf.itemRunArr[i].left = berforeLab.right + weakSelf.itemSpace;
+            berforeLab = weakSelf.itemRunArr[i];
         }
         
-        if (self.itemRunArr.lastObject.right < self.maxWidth && self.itemStopArr.count > 0) {
+        if (weakSelf.itemRunArr.lastObject.right < weakSelf.maxWidth && weakSelf.itemStopArr.count > 0) {
             
-            UILabel *lab = self.itemStopArr.firstObject;
-            [self.itemStopArr removeObjectAtIndex:0];
-            [self.itemRunArr addObject:lab];
+            UILabel *lab = weakSelf.itemStopArr.firstObject;
+            [weakSelf.itemStopArr removeObjectAtIndex:0];
+            [weakSelf.itemRunArr addObject:lab];
             lab.hidden = NO;
         }
         
-        if (self.itemRunArr.firstObject.right < 0 && self.itemRunArr.count > 0) {
+        if (weakSelf.itemRunArr.firstObject.right < 0 && weakSelf.itemRunArr.count > 0) {
             
-            UILabel *lab = self.itemRunArr.firstObject;
-            [self.itemRunArr removeObjectAtIndex:0];
-            [self.itemStopArr addObject:lab];
-            lab.left = self.maxWidth + self.itemSpace;
+            UILabel *lab = weakSelf.itemRunArr.firstObject;
+            [weakSelf.itemRunArr removeObjectAtIndex:0];
+            [weakSelf.itemStopArr addObject:lab];
+            lab.left = weakSelf.maxWidth + weakSelf.itemSpace;
             lab.hidden = YES;
         }
     }];

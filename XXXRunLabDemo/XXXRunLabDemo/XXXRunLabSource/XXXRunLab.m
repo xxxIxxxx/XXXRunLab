@@ -102,7 +102,7 @@
             lab.left = self.maxWidth + self.itemSpace;
             lab.hidden = YES;
         }else {
-            lab.left = self.itemRunArr.lastObject.right + self.itemSpace;
+            lab.left = self.itemRunArr.lastObject?self.itemRunArr.lastObject.right:-self.itemSpace + self.itemSpace;
             [self.itemRunArr addObject:lab];
         }
     }

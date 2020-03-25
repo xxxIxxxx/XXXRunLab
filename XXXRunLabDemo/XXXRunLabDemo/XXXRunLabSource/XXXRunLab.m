@@ -16,6 +16,8 @@
 @property (nonatomic, assign) CGFloat itemH;
 ///当前屏幕的最大边长
 @property (nonatomic, assign) CGFloat maxWidth;
+///不需要滚动  ** 当文本长度  <=  XXXRunLab长度 且 不为XXXRunLabShowDefaultType 时 **
+@property (nonatomic, assign) BOOL withoutRun;
 
 ///滚动中的lab Arr
 @property (nonatomic, strong) NSMutableArray<UILabel *> *itemRunArr;
@@ -83,6 +85,12 @@
     }
     NSInteger itemCount = self.maxWidth/self.itemW + 5;
     
+    self.withoutRun = (self.itemW <= self.width);
+    
+    if (self.showType != XXXRunLabShowDefaultType && self.withoutRun) {
+        itemCount = 1;
+    }
+    
     if (self.itemRunArr.count > 0 || self.itemStopArr.count > 0) {
         for (UILabel *lab in self.itemRunArr) {
             [self updateItem:lab];
@@ -104,6 +112,10 @@
         }else {
             lab.left = self.itemRunArr.lastObject?self.itemRunArr.lastObject.right:-self.itemSpace + self.itemSpace;
             [self.itemRunArr addObject:lab];
+            
+            if (self.showType == XXXRunLabShowCenterType && self.withoutRun) {
+                lab.left = (self.width - self.itemW)/2.0;
+            }
         }
     }
 }
@@ -124,7 +136,9 @@
 
 
 - (void)runFun {
-    if (self.isRun) return;
+    [self layoutSubviews];
+    
+    if (self.isRun || (self.showType != XXXRunLabShowDefaultType && self.withoutRun)) return;
     self.isRun = YES;
     CGFloat runX = self.speed / 60.0;
     __weak typeof(self) weakSelf = self;

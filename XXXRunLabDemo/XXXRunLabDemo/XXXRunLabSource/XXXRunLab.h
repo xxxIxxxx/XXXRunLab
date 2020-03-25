@@ -8,11 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, XXXRunLabShowType) {
+    ///无论文字长度是否大于本体长度 都滚动
+    XXXRunLabShowDefaultType,
+    ///当  文字长度小于等于本体长度时   居中展示不滚动
+    XXXRunLabShowCenterType,
+    ///当  文字长度小于等于本体长度时   居左展示不滚动
+    XXXRunLabShowLeftType,
+};
 
 /// 跑马灯滚动文字展示  文字会自动垂直居中展示
 @interface XXXRunLab : UIView
 
 
+@property (nonatomic, assign) XXXRunLabShowType showType;
 
 /// 展示内容富文本     **赋值后下面三个属性失效**
 @property (nonatomic, copy) NSAttributedString * _Nullable attributedText;

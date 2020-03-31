@@ -67,6 +67,11 @@
     self.itemH = textFont.lineHeight;
 }
 
+- (void)setText:(NSString *)text {
+    _text = text;
+    [self layoutSubviews];
+}
+
 - (void)setAttributedText:(NSAttributedString *)attributedText {
     _attributedText = [attributedText copy];
     UILabel *lab = UILabel.new;
@@ -74,6 +79,7 @@
     [lab sizeToFit];
     self.itemW = lab.size.width;
     self.itemH = lab.size.height;
+    [self layoutSubviews];
 }
 
 

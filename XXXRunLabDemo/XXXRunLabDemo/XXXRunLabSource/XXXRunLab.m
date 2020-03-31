@@ -136,9 +136,20 @@
 
 
 - (void)runFun {
-    [self layoutSubviews];
     
-    if (self.isRun || (self.showType != XXXRunLabShowDefaultType && self.withoutRun)) return;
+    if (!self.text && !self.attributedText) {
+        return;
+    }
+    if (self.width == 0.0) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self runFun];
+        });
+        return;
+    }
+    if (self.showType != XXXRunLabShowDefaultType && self.withoutRun) {
+        return;
+    }
+    if (self.isRun) return;
     self.isRun = YES;
     CGFloat runX = self.speed / 60.0;
     __weak typeof(self) weakSelf = self;
@@ -335,3 +346,5 @@
 }
 
 @end
+
+

@@ -86,6 +86,10 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
+    self.itemRunArr = @[].mutableCopy;
+    self.itemStopArr = @[].mutableCopy;
+    [self removeAllSubviews];
+    
     if (!self.attributedText) {
         self.itemW = [self.text widthForFont:self.textFont];
     }
